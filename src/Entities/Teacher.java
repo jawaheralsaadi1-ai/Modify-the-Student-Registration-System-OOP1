@@ -1,4 +1,3 @@
 ﻿package Entities;
 
-public class Teacher {
-}
+public class Teacher extends ParentEntity { }

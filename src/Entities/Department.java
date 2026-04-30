@@ -1,4 +1,3 @@
 ﻿package Entities;
 
-public class Department {
-}
+public class Department extends ParentEntity { }
