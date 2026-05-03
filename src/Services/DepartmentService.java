@@ -2,10 +2,10 @@ package Services;
 
 import Entities.Department;
 import Entities.University;
-import Behaviours.DepartmentInterface;
+import Behaviours.UniversityInterface;
 import java.util.Scanner;
 
-public class DepartmentService implements DepartmentInterface {
+public class DepartmentService implements UniversityInterface {
     private final University uni;
     private final Scanner sc = new Scanner(System.in);
 
@@ -16,43 +16,46 @@ public class DepartmentService implements DepartmentInterface {
         System.out.print("Enter Department Name: ");
         Department d = new Department();
         d.setName(sc.nextLine());
-        // ID is automatically generated as a UUID string in ParentEntity
-        uni.getDepartments().add(d);
-        System.out.println("✅ Department Added. ID: " + d.getId());
+        uni.getDepartments().add(d); // Add to the specific Dept list
+        System.out.println(" Department added. ID: " + d.getId());
     }
 
     @Override
     public void update() {
-        System.out.print("Enter UUID to Update: ");
-        String id = sc.nextLine(); // Change from int to String
-        uni.getDepartments().stream().filter(d -> d.getId().equals(id)).findFirst()
-                .ifPresentOrElse(d -> {
-                    System.out.print("New Name: ");
-                    d.setName(sc.nextLine());
-                    System.out.println("✅ Updated.");
-                }, () -> System.out.println("❌ Not Found."));
+        System.out.print("Enter Department ID: ");
+        String id = sc.nextLine();
+        for (Department d : uni.getDepartments()) {
+            if (d.getId().equals(id)) {
+                System.out.print("New Dept Name: ");
+                d.setName(sc.nextLine());
+                System.out.println(" Updated!");
+                return;
+            }
+        }
+        System.out.println(" Department not found.");
     }
 
     @Override
     public void delete() {
-        System.out.print("Enter UUID to Delete: ");
-        String id = sc.nextLine(); // Change from int to String
-        boolean removed = uni.getDepartments().removeIf(d -> d.getId().equals(id));
-        if (removed) System.out.println("🗑️ Deleted.");
-        else System.out.println("❌ Not Found.");
+        System.out.print("Enter ID: ");
+        // We find the ID in the list and remove it
+        boolean removed = uni.getDepartments().removeIf(d -> d.getId().equals(sc.nextLine()));
+        System.out.println(removed ? "🗑️ Removed." : "Not found.");
     }
 
     @Override
     public void displayAll() {
-        if (uni.getDepartments().isEmpty()) System.out.println("List is empty.");
-        uni.getDepartments().forEach(d -> System.out.println("[" + d.getId() + "] " + d.getName()));
+        uni.getDepartments().forEach(d -> System.out.println("ID: " + d.getId() + " | Name: " + d.getName()));
     }
 
     @Override
     public void displayByName() {
-        System.out.print("Search Name: ");
+        System.out.print("Search Department Name: ");
         String name = sc.nextLine();
-        uni.getDepartments().stream().filter(d -> d.getName().equalsIgnoreCase(name))
-                .forEach(d -> System.out.println("[" + d.getId() + "] " + d.getName()));
+        for (Department d : uni.getDepartments()) {
+            if (d.getName().equalsIgnoreCase(name)) {
+                System.out.println("Found ID: " + d.getId());
+            }
+        }
     }
 }

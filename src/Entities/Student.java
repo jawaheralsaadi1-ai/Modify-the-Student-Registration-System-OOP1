@@ -1,11 +1,9 @@
 package Entities;
 
-import Entities.ParentEntity;
-
 public class Student extends ParentEntity {
     private String name;
 
-    public Student(String name) {
+    public Student() {
         super();
         this.name = name;
     }
