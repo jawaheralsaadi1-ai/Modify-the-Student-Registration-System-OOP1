@@ -39,7 +39,7 @@ public class UniversityService {
 
             // Route the user to the right tool
             switch (choice) {
-                case "1" -> activeModule = studentSrv;
+                case "1" -> activeModule = (UniversityInterface) studentSrv;
                 case "2" -> activeModule = teacherSrv;
                 case "3" -> activeModule = deptSrv;
                 case "4" -> activeModule = courseSrv;
