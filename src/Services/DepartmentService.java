@@ -1,50 +1,58 @@
 package Services;
 
-import Entities.Department;// This must match  with your folder name
+import Entities.Department;
+import Entities.University;
+import Behaviours.DepartmentInterface;
+import java.util.Scanner;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+public class DepartmentService implements DepartmentInterface {
+    private final University uni;
+    private final Scanner sc = new Scanner(System.in);
 
-public class DepartmentService  {
-    // Using a List to store departments in memory
-    private List<Department> departments = new ArrayList<>();
+    public DepartmentService(University uni) { this.uni = uni; }
 
-    // 1. Add Department
-    public void addDepartment(String name) {
-        Department newDept = new Department(UUID.randomUUID(), name);
-        departments.add(newDept);
-        System.out.println("Department added successfully!");
+    @Override
+    public void add() {
+        System.out.print("Enter Department Name: ");
+        Department d = new Department();
+        d.setName(sc.nextLine());
+        // ID is automatically generated as a UUID string in ParentEntity
+        uni.getDepartments().add(d);
+        System.out.println("✅ Department Added. ID: " + d.getId());
     }
 
-    // 2. Update Department
-    public void updateDepartment(UUID id, String newName) {
-        for (Department dept : departments) {
-            if (dept.getId().equals(id)) {
-                dept.setName(newName);
-                return;
-            }
-        }
+    @Override
+    public void update() {
+        System.out.print("Enter UUID to Update: ");
+        String id = sc.nextLine(); // Change from int to String
+        uni.getDepartments().stream().filter(d -> d.getId().equals(id)).findFirst()
+                .ifPresentOrElse(d -> {
+                    System.out.print("New Name: ");
+                    d.setName(sc.nextLine());
+                    System.out.println("✅ Updated.");
+                }, () -> System.out.println("❌ Not Found."));
     }
 
-    // 3. Delete Department
-    public void deleteDepartment(UUID id) {
-        departments.removeIf(dept -> dept.getId().equals(id));
+    @Override
+    public void delete() {
+        System.out.print("Enter UUID to Delete: ");
+        String id = sc.nextLine(); // Change from int to String
+        boolean removed = uni.getDepartments().removeIf(d -> d.getId().equals(id));
+        if (removed) System.out.println("🗑️ Deleted.");
+        else System.out.println("❌ Not Found.");
     }
 
-    // 4. Display by Name
-    public void displayByName(String name) {
-        for (Department dept : departments) {
-            if (dept.getName().equalsIgnoreCase(name)) {
-                System.out.println(dept);
-            }
-        }
-    }
-
-    // 5. Display All
+    @Override
     public void displayAll() {
-        for (Department dept : departments) {
-            System.out.println("ID: " + dept.getId() + " | Name: " + dept.getName());
-        }
+        if (uni.getDepartments().isEmpty()) System.out.println("List is empty.");
+        uni.getDepartments().forEach(d -> System.out.println("[" + d.getId() + "] " + d.getName()));
+    }
+
+    @Override
+    public void displayByName() {
+        System.out.print("Search Name: ");
+        String name = sc.nextLine();
+        uni.getDepartments().stream().filter(d -> d.getName().equalsIgnoreCase(name))
+                .forEach(d -> System.out.println("[" + d.getId() + "] " + d.getName()));
     }
 }
