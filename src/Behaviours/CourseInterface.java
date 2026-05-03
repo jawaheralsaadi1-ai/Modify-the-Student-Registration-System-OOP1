@@ -1,4 +1,4 @@
-﻿package Behaviours;
+package Behaviours;
 
 /**
  * Interface for Department-specific logic.
