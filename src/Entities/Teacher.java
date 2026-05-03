@@ -1,3 +1,3 @@
-﻿package Entities;
+package Entities;
 
 public class Teacher extends ParentEntity { }

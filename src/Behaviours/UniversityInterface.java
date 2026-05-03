@@ -1,4 +1,4 @@
-﻿package Behaviours;
+package Behaviours;
 
 public interface UniversityInterface {
     void add();

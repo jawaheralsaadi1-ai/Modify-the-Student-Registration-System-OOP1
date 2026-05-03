@@ -1,4 +1,4 @@
-﻿package Behaviours;
+package Behaviours;
 
 /**
  * Interface for Student-specific logic.
