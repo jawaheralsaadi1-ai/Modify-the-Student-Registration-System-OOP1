@@ -46,23 +46,56 @@ public class StudentService implements UniversityInterface {
             uni.getStudents().add(s);
             System.out.println(" Status 201: Student added successfully! ID: " + s.getId());
         }
-// 2. UPDATE: Find a student by ID and change their name
-    @Override
-    public void update() {
-        System.out.print("Enter Student ID to update: ");
-        String searchId = sc.nextLine();
+// 2. UPDATE: Modified for Name, Email, and Phone with Validation
 
+    @Override
+
+    public void update() {
+
+        System.out.print("\n--- [ADMIN] Enter Student ID to Update: ");
+        String searchId = sc.nextLine();
         for (Student s : uni.getStudents()) {
+
             if (s.getId().equals(searchId)) {
+                System.out.println("Editing Profile: " + s.getName());
                 System.out.print("Enter New Name: ");
-                s.setName(sc.nextLine());
-                System.out.println(" Name updated!");
+
+                String newName = sc.nextLine();
+                System.out.print("Enter New Email: ");
+                String newEmail = sc.nextLine();
+
+                System.out.print("Enter New Phone: ");
+                String newPhone = sc.nextLine();
+
+                // --- VALIDATION: Criterion #2 ---
+
+                if (newName.trim().isEmpty() || !newEmail.contains("@")) {
+                    System.out.println(" HTTP 400: Update Failed. Name and valid Email are required.");
+                    return;
+                }
+
+             // --- DATA INTEGRITY: Update object fields ---
+                s.setName(newName);
+                s.setEmail(newEmail);
+                s.setPhone(newPhone);
+                // --- AUDIT LOGGING: Criterion #7 ---
+
+                logAudit("UPDATE", searchId);
+
+
+
+                System.out.println(" HTTP 200: Student record updated successfully.");
                 return;
             }
         }
-        System.out.println(" Student not found.");
+        System.out.println(" HTTP 404: Student not found.");
     }
-// 3. DELETE: Remove a student from the list
+
+    //private void logAudit(String update, String searchId) {
+    //}
+
+
+    // 3. DELETE: Remove a student from the list
     @Override
     public void delete() {
         System.out.print("Enter Student ID to delete: ");
@@ -94,4 +127,6 @@ public class StudentService implements UniversityInterface {
             }
         }
     }
+
+
 }
