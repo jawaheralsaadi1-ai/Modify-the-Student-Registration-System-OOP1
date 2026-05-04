@@ -4,7 +4,14 @@ import Entities.Teacher;
 import Entities.University;
 import Behaviours.UniversityInterface;
 import java.util.Scanner;
+import java.time.LocalDateTime;// ADD NEW Required for Audit Logging
 
+/**
+ * Teacher SERVICE
+ * Manages the "Rules" of the university for Teacher records.
+ */
+
+//// ADD THE 'implements' KEYWORD HERE
 public class TeacherService implements UniversityInterface {
     private final University uni; // This is our storage box (the data warehouse)
     private final Scanner sc = new Scanner(System.in); // To read what the user types
