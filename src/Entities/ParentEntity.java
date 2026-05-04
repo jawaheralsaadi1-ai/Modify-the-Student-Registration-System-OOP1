@@ -1,6 +1,11 @@
 package Entities;
 import java.util.UUID;
 
+/**
+ * PARENT ENTITY (Abstract)
+ * This is the base for all objects in the system.
+ * By putting fields here, we don't have to rewrite them in Student or Teacher.
+ */
 public abstract class ParentEntity {
     // We use String for ID because UUID gives us a unique text code
     private String id = UUID.randomUUID().toString().substring(0, 8); // Just take the first 8 characters

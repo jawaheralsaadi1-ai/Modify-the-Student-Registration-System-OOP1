@@ -1,14 +1,12 @@
 package Entities;
 
+/**
+ * STUDENT ENTITY
+ * Inherits id, name, email, and phone from ParentEntity.
+ */
 public class Student extends ParentEntity {
-    private String name;
-
+    // You can add student-specific fields here later, like 'GPA' or 'Major'
     public Student() {
-        super();
-        this.name = name;
-    }
-
-    public String getName() {
-        return name;
+        super(); // Calls the ParentEntity constructor to setup the ID
     }
 }
