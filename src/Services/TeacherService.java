@@ -6,7 +6,7 @@ import Behaviours.UniversityInterface;
 import java.util.Scanner;
 import java.time.LocalDateTime;// ADD NEW Required for Audit Logging
 
-/**
+/*
  * Teacher SERVICE
  * Manages the "Rules" of the university for Teacher records.
  */
@@ -22,11 +22,23 @@ public class TeacherService implements UniversityInterface {
 
     @Override
     public void add() {
-        System.out.print("Enter Teacher Name: ");
+        System.out.print("\\n--- [ACTION] Register New Teacher --- ");
         Teacher t = new Teacher(); // Create a new Teacher object (it gets a UUID automatically)
+        System.out.print("Enter Faculty Name: ");
         t.setName(sc.nextLine());  // Set the name from user input
+
+        System.out.print("Enter Official Email: ");
+        String email = sc.nextLine();
+        if (!email.contains("@")) {
+            System.out.println(" HTTP 400: Invalid email format.");
+            return;
+        }
+        t.setEmail(email);
+        System.out.print("Enter Phone Number: ");
+        t.setPhone(sc.nextLine());
+
         uni.getTeachers().add(t);  // Save the teacher into our university list
-        System.out.println("✅ Teacher added! ID: " + t.getId());
+        System.out.println(" Status 201: Teacher registered with ID: " + t.getId());
     }
 
     @Override
