@@ -79,11 +79,7 @@ public class StudentService implements UniversityInterface {
                 s.setEmail(newEmail);
                 s.setPhone(newPhone);
                 // --- AUDIT LOGGING: Criterion #7 ---
-
                 logAudit("UPDATE", searchId);
-
-
-
                 System.out.println(" HTTP 200: Student record updated successfully.");
                 return;
             }
@@ -91,19 +87,20 @@ public class StudentService implements UniversityInterface {
         System.out.println(" HTTP 404: Student not found.");
     }
 
-    //private void logAudit(String update, String searchId) {
-    //}
-
-
-    // 3. DELETE: Remove a student from the list
-    @Override
+    // 3. DELETE: Modified to include Auditing    @Override
     public void delete() {
-        System.out.print("Enter Student ID to delete: ");
+        System.out.print("\n--- [ADMIN] Enter Student ID to Delete: ");
         String searchId = sc.nextLine();
-        boolean removed = uni.getStudents().removeIf(s -> s.getId().equals(searchId));
 
-        if (removed) System.out.println("🗑️ Student removed.");
-        else System.out.println(" ID not found.");
+        boolean removed = uni.getStudents().removeIf(s -> s.getId().equals(searchId));
+        if (removed) {
+            logAudit("DELETE", searchId);
+            System.out.println(" HTTP 204!: Student removed.");
+
+        } else {
+
+            System.out.println("HTTP 404!: Student ID not found.");
+        }
     }
 // 4. DISPLAY ALL: Show every student in the list
     @Override
@@ -127,6 +124,13 @@ public class StudentService implements UniversityInterface {
             }
         }
     }
-
+    /**
+     * SINGLE DEFINITION: logAudit
+     * Fixed the 'Ambiguous call' by keeping only this version.
+     */
+    private void logAudit(String action, String targetId) {
+        String timestamp = LocalDateTime.now().toString();
+        System.out.println("[AUDIT LOG] " + timestamp + " | Action: " + action + " | ID: " + targetId);
+    }
 
 }
