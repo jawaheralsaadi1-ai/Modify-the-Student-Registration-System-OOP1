@@ -16,9 +16,19 @@ public class StudentService implements UniversityInterface {
 //1. ADD: Create a new student and save them
     @Override // Tells Java this is an interface requirement
     public void add() {
-        System.out.print("Enter Student Name: ");
+        System.out.println("\n--- Add New Student ---");
         Student s = new Student();
+        System.out.print("Enter Student Name: ");
+        //Student s = new Student();
         s.setName(sc.nextLine());
+        // Add Email
+       // System.out.print("Enter Email: ");
+       // String email = sc.nextLine();
+         // Validation
+       // if (!email.contains("@")) {
+         //   System.out.println(" Invalid email. Student not added.");
+         //   return;}
+        //s.setEmail(email);
         uni.getStudents().add(s);// Save into the list
         System.out.println(" Student added successfully!");
     }
